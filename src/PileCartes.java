@@ -1,8 +1,9 @@
 import java.util.LinkedList;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
-public class PileCartes {
+public class PileCartes{
     protected int x;
     protected int y;
     protected LinkedList<Carte> carteLinkedList;
@@ -14,7 +15,7 @@ public class PileCartes {
     }
 
     public Carte top(){
-        return carteLinkedList.getLast();
+        return carteLinkedList.getFirst();
     }
 
     public Carte pop(){
@@ -22,7 +23,7 @@ public class PileCartes {
     }
 
     public void push(Carte carte){
-        carteLinkedList.addLast(carte);
+        carteLinkedList.addFirst(carte);
     }
 
     public int taille(){
@@ -33,8 +34,13 @@ public class PileCartes {
         return carteLinkedList.isEmpty();
     }
 
+    public LinkedList<Carte> getPileCarte(){
+        return carteLinkedList;
+    }
+
 
     public void draw(GraphicsContext gc){
+        gc.setStroke(Color.BLACK);
         if(!is_Empty()){
             top().draw(gc, x, y);
         }else{
@@ -59,4 +65,5 @@ public class PileCartes {
         }
         return res +"}";
     }
+
 }

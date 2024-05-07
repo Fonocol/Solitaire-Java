@@ -1,4 +1,5 @@
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 public class PilesTable extends PileCartes {
     private int nombreDeCartes;
@@ -7,15 +8,15 @@ public class PilesTable extends PileCartes {
 
     public PilesTable(int x, int y,int n) {
         super(x, y);
-        this.nombreDeCartes = n;
+        this.nombreDeCartes = 0;
 
-        for (int i = 0; i < nombreDeCartes; i++) {
+        for (int i = 0; i < n; i++) {
             if(Solitaire.deck.taille() > 0){
                 push(Solitaire.deck.pop());
             }
         }
         if (!is_Empty()) {
-            carteLinkedList.getLast().retourne();
+            carteLinkedList.getFirst().retourne();
         }
 
     }
@@ -24,17 +25,20 @@ public class PilesTable extends PileCartes {
         if(is_Empty()){
             if (carte.getValue() == Carte.ROI) {
                 push(carte);
+                
                 return true;
             }else{
                 return false;
             }
         }else{
             Carte last = top();
-            if (last.getValue() == carte.getValue() - 1) {
+            if (last.getValue() == carte.getValue() + 1) {
                 if ((carte.getColor()==Carte.PIQUES || carte.getColor()==Carte.TREFLES) && (last.getColor()==Carte.CARREAUX || last.getColor()==Carte.COEURS)) {
                     push(carte);
+                    
                 }else if((carte.getColor()==Carte.COEURS || carte.getColor()==Carte.CARREAUX) && (last.getColor()==Carte.TREFLES || last.getColor()==Carte.PIQUES)){
                     push(carte);
+                    
                 }else{
                     return false;
                 }
@@ -54,10 +58,23 @@ public class PilesTable extends PileCartes {
     }
 
     @Override
+    public void push(Carte carte){
+        carteLinkedList.addFirst(carte);
+        nombreDeCartes++;
+    }
+
+    @Override
+    public Carte pop(){
+        nombreDeCartes--;
+        return carteLinkedList.removeFirst();
+    }
+
+    @Override
     public void draw(GraphicsContext gc){
+        gc.setStroke(Color.BLACK);
         if (!is_Empty()) {
-            for (int i = 0; i < nombreDeCartes; i++) {
-                carteLinkedList.get(i).draw(gc,x,y+i*YDIST);
+            for (int i = 1; i <= nombreDeCartes; i++) {
+                carteLinkedList.get((nombreDeCartes-i)).draw(gc,x,y+i*YDIST);
             }
         }else{
             gc.strokeRect(x, y, Carte.LARGEUR, Carte.HAUTEUR);

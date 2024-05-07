@@ -37,6 +37,10 @@ public class Solitaire {
         }
 
         defausse= new Defausse((MARGE_GAUCHE+Carte.LARGEUR)*9 , MARGE_SOMMET);
+        /*
+         * 0
+         * 1
+         */
         pileCartes.add(deck);
         pileCartes.add(defausse);
         /*
@@ -45,6 +49,9 @@ public class Solitaire {
         for(int pile=0; pile<NOMBRE_PILES_ORDONNES;pile++){
             pileOrdonnees.add(new PileOrdonner(MARGE_GAUCHE*(pile+1) +Carte.LARGEUR*pile,MARGE_SOMMET));
         }
+        /*
+         * 2-3-4-5
+         */
         for(PileOrdonner pile:pileOrdonnees){
             pileCartes.add(pile);
         }
@@ -57,13 +64,16 @@ public class Solitaire {
                 new PilesTable(MARGE_GAUCHE+(Carte.LARGEUR+5)*i,Carte.HAUTEUR*2+MARGE_SOMMET,i+1)
             );
         }
+        /*
+         * 6 a 12
+         */
         for(PilesTable pile:pilesTables){
             pileCartes.add(pile);
         }
             
     }
 
-    public void screne(GraphicsContext gc){
+    public static void  screne(GraphicsContext gc){
         gc.setFill(Color.PINK);
         gc.fillRect(0, 0, 600, 600);
         gc.strokeText("@PROJET SOLITAIRE AVEC JAVA", 200, 550);
@@ -74,8 +84,6 @@ public class Solitaire {
         }
         
     }
-
-
 
     
     

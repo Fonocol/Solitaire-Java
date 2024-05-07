@@ -8,7 +8,7 @@ public class Defausse extends PileCartes{
         if (!carte.getOrientation()) {
             carte.retourne();
         }
-        carteLinkedList.addLast(carte);
+        carteLinkedList.addFirst(carte);
     }
     
 }
