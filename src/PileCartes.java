@@ -44,6 +44,8 @@ public class PileCartes{
         if(!is_Empty()){
             top().draw(gc, x, y);
         }else{
+            gc.setFill(Color.WHITE);
+            gc.fillRect(x+1, y+1, Carte.LARGEUR-2, Carte.HAUTEUR-2);
             gc.strokeRect(x, y, Carte.LARGEUR, Carte.HAUTEUR);
             gc.strokeText("?", x+25, y+35);
         }

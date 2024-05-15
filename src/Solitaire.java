@@ -74,11 +74,22 @@ public class Solitaire {
     }
 
     public static void  screne(GraphicsContext gc){
+        Logo logo = new Logo(0, MARGE_SOMMET-MARGE_GAUCHE);
+        
+
         gc.setFill(Color.PINK);
         gc.fillRect(0, 0, 600, 600);
-        gc.strokeText("@PROJET SOLITAIRE AVEC JAVA", 200, 550);
-        deck.draw(gc);
-        defausse.draw(gc);
+
+        logo.draw(gc);
+
+        gc.strokeText("@ SOLITAIRE", 250,MARGE_SOMMET- 2*MARGE_GAUCHE);
+        gc.setFill(Color.GREEN);
+        gc.fillRect(164, 515, 4*(Carte.LARGEUR +MARGE_GAUCHE), Carte.HAUTEUR+MARGE_GAUCHE*2);
+        gc.strokeText("@ PROJET SOLITAIRE AVEC JAVA", 190, 530+Carte.HAUTEUR/2);
+
+        //deck.draw(gc);
+        //defausse.draw(gc);
+
         for(int i=0; i<NOMBRE_DE_PILES; i++){
             pileCartes.get(i).draw(gc);
         }

@@ -57,53 +57,28 @@ public class App extends Application {
                 y = (int) event.getY();
                 for (int i = 0; i < Solitaire.NOMBRE_DE_PILES; i++){
                     if (Solitaire.pileCartes.get(i).estInclus(x, y)){
-                    System.out.println("la pile " + i + " a été cliqué");
-                    if (i==0) {
-                        if(Solitaire.deck.is_Empty()){
-                            int end =Solitaire.defausse.taille();
-                            System.out.println(end);
-                            for(int n = 0; n < end; n++){
+                        System.out.println("la pile " + i + " a été cliqué");
+                        if (i==0) {
+                            if(Solitaire.deck.is_Empty()){
+                                int end =Solitaire.defausse.taille();
+                                System.out.println(end);
+                                for(int n = 0; n < end; n++){
+                                    
+                                    Carte carte = Solitaire.defausse.pop();
+                                    carte.retourne();
+                                    Solitaire.deck.push(carte);
+                                }
+                            }else{
+                                System.out.println("no");
+                                Carte carte = Solitaire.deck.pop();
+                                Solitaire.defausse.push(carte);
+                            }
+    
+                        }else if(i==1){
+                            if (!Solitaire.defausse.is_Empty()) {
                                 
-                                Carte carte = Solitaire.defausse.pop();
-                                carte.retourne();
-                                Solitaire.deck.push(carte);
-                            }
-                        }else{
-                            System.out.println("no");
-                            Carte carte = Solitaire.deck.pop();
-                            Solitaire.defausse.push(carte);
-                        }
- 
-                    }else if(i==1){
-                        if (!Solitaire.defausse.is_Empty()) {
                             
-                        
-                            Carte carte = Solitaire.defausse.top();
-                            boolean inOrdonnee= false;
-                            for (PileOrdonner pile : Solitaire.pileOrdonnees){
-                                System.out.println(inOrdonnee);
-                                if (!inOrdonnee) {
-                                    inOrdonnee = pile.pushPosible(carte);
-                                }
-                            }
-                            if (!inOrdonnee) {
-                                for (PilesTable pile : Solitaire.pilesTables){
-                                    if (pile.pushPosible(carte)) {
-                                        Solitaire.defausse.pop();
-                                        break;
-                                    }
-                                }
-                            }else{
-                                Solitaire.defausse.pop();
-                            }
-                        }
-
-                    }else if(i>5){
-                        if(!Solitaire.pileCartes.get(i).is_Empty()){
-                            if(!Solitaire.pileCartes.get(i).top().getOrientation()){
-                                Solitaire.pileCartes.get(i).top().retourne();
-                            }else{
-                                Carte carte = Solitaire.pileCartes.get(i).top();
+                                Carte carte = Solitaire.defausse.top();
                                 boolean inOrdonnee= false;
                                 for (PileOrdonner pile : Solitaire.pileOrdonnees){
                                     System.out.println(inOrdonnee);
@@ -112,49 +87,74 @@ public class App extends Application {
                                     }
                                 }
                                 if (!inOrdonnee) {
-                                    PileCartes newPileCarte = new PileCartes(0, 0);
-                                    PilesTable currentPileCarte = (PilesTable) Solitaire.pileCartes.get(i);
-                                    
-                                    /*LinkedList<Carte> listecarts = new LinkedList<>();
-                                    for(Carte ele:currentPileCarte.getPileCarte()){
-                                        listecarts.push(ele);
-                                    }*/
-                                    LinkedList<Carte> listecarts = currentPileCarte.getPileCarte();
-                                    
-                                    //liste des carte face true et les suprimer dans les tables
-                                    for (Carte c: listecarts){
-                                        if (c.getOrientation()) {
-                                            newPileCarte.push(c);
-                                            Solitaire.pileCartes.get(i).pop();  //supression dans les tables
-                                            
+                                    for (PilesTable pile : Solitaire.pilesTables){
+                                        if (pile.pushPosible(carte)) {
+                                            Solitaire.defausse.pop();
+                                            break;
                                         }
                                     }
-                                    
-                                    if (newPileCarte.taille()==1) {
-                                        boolean inTable = false;
-                                        for(int index=0;index<Solitaire.NOMBRE_DE_PILES-6;index++){
+                                }else{
+                                    Solitaire.defausse.pop();
+                                }
+                            }
 
-                                            if (!inTable && index!= i-6 && Solitaire.pilesTables.get(index).top().getOrientation()) {//verifier que la carte du dessu est retourner
-                                                inTable = Solitaire.pilesTables.get(index).pushPosible(newPileCarte.top());
+                        }else if(i>5){
+                            if(!Solitaire.pileCartes.get(i).is_Empty()){
+                                if(!Solitaire.pileCartes.get(i).top().getOrientation()){
+                                    Solitaire.pileCartes.get(i).top().retourne();
+                                }else{
+                                    Carte carte = Solitaire.pileCartes.get(i).top();
+                                    boolean inOrdonnee= false;
+                                    for (PileOrdonner pile : Solitaire.pileOrdonnees){
+                                        System.out.println(inOrdonnee);
+                                        if (!inOrdonnee) {
+                                            inOrdonnee = pile.pushPosible(carte);
+                                        }
+                                    }
+                                    if (!inOrdonnee) {
+                                        PileCartes newPileCarte = new PileCartes(0, 0);
+                                        PilesTable currentPileCarte = (PilesTable) Solitaire.pileCartes.get(i);
+                                        
+                                        /*LinkedList<Carte> listecarts = new LinkedList<>();
+                                        for(Carte ele:currentPileCarte.getPileCarte()){
+                                            listecarts.push(ele);
+                                        }*/
+                                        LinkedList<Carte> listecarts = currentPileCarte.getPileCarte();
+                                        
+                                        //liste des carte face true et les suprimer dans les tables
+                                        for (Carte c: listecarts){
+                                            if (c.getOrientation()) {
+                                                newPileCarte.push(c);
+                                                Solitaire.pileCartes.get(i).pop();  //supression dans les tables
+                                                
                                             }
                                         }
-                                        if (!inTable) {
-                                            Solitaire.pileCartes.get(i).push(newPileCarte.top());
-                                        }
-                                    }else{
-                                        System.out.println("taille plus de  1");   
-                                    }
-                                    
-                                }else{
-                                    Solitaire.pileCartes.get(i).pop();
-                                }
+                                        
+                                        if (newPileCarte.taille()==1) {
+                                            boolean inTable = false;
+                                            for(int index=0;index<Solitaire.NOMBRE_DE_PILES-6;index++){
 
+                                                if (!inTable && index!= i-6 && Solitaire.pilesTables.get(index).top().getOrientation()) {//verifier que la carte du dessu est retourner
+                                                    inTable = Solitaire.pilesTables.get(index).pushPosible(newPileCarte.top());
+                                                }
+                                            }
+                                            if (!inTable) {
+                                                Solitaire.pileCartes.get(i).push(newPileCarte.top());
+                                            }
+                                        }else{
+                                            System.out.println("taille plus de  1");   
+                                        }
+                                        
+                                    }else{
+                                        Solitaire.pileCartes.get(i).pop();
+                                    }
+
+                                }
                             }
                         }
-                    }
-                    Platform.runLater(() -> {
-                        Solitaire.screne(gc);
-                    });
+                        Platform.runLater(() -> {
+                            Solitaire.screne(gc);
+                        });
                     }
                 }
 
